@@ -9,8 +9,11 @@ from tornado.options import options
 
 from urls import handlers
 
+settings = {
+}
+
 def run():
-    application = web.Application(handlers)
+    application = web.Application(handlers, **settings)
     http_server = httpserver.HTTPServer(application, xheaders=True)
     http_server.bind(options.port)
     http_server.start(options.num_processes)

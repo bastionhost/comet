@@ -26,12 +26,12 @@ setup(
     zip_safe=False,
     install_requires=[
         'setuptools',
+        'tornado',
         'mysql-python',
         'redis',
-        'httplib2',
         ],
     entry_points="""
     [console_scripts]
-    start = app:run
+    start = comet.app:run
     """,
 )

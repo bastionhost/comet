@@ -1,0 +1,9 @@
+*.pyc
+*.pyo
+*.log
+bin/
+eggs/
+parts/
+develop-eggs/
+src/comet.egg-info/
+.installed.cfg

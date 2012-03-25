@@ -6,6 +6,8 @@ import time
 import json
 from zlib import decompress
 import tornado
+from redis import Redis
+from tornado.options import options
 
 import consts
 from utils import millisec
@@ -13,7 +15,7 @@ from utils import millisec
 class CometMixin(object):
     _single_keys = set()
     _normal_keys = set()
-    redis = '' # TODO
+    redis = Redis(host=options.redis_host,port=options.redis_port,db=options.redis_db)
 
     def wait_for_data(self, uid, events, timestamp, callback, timeout):
         if timeout > 0:

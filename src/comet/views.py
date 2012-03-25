@@ -8,13 +8,20 @@ import tornado.web
 from utils import millisec
 from mixin import CometMixin
 
+class User(object):
+    def __init__(self, id):
+        self.id = id
+
+
 class CometHandler(tornado.web.RequestHandler):
     def get_current_user(self):
-        uid = self.get_secure_cookie("uid")
+        uid = int(self.get_cookie("uid", 0))
         if not uid:
-            return None
-        else:
-            return int(uid)
+            import random
+
+            uid = random.randint(1, 100)
+            self.set_cookie("uid", str(uid))
+        return User(uid)
 
 
 class UpdateHandler(CometHandler, CometMixin):
@@ -22,7 +29,6 @@ class UpdateHandler(CometHandler, CometMixin):
     Long-polling from browsers to servers
     """
 
-    @tornado.web.authenticated
     @tornado.web.asynchronous
     def get(self, *args, **kwargs):
         try:
@@ -64,7 +70,6 @@ class UpdateHandler(CometHandler, CometMixin):
 
 
 class ConnectHandler(CometHandler):
-    @tornado.web.authenticated
     def get(self, *args, **kwargs):
         """
         For closure testing only
